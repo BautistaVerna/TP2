@@ -4,7 +4,6 @@ import java.util.Map;
 public class Menu {
     private static final Map<String, Map<String, Integer>> restaurantes = new HashMap<>();
 
-    // Inicializa las opciones de comida y precios para cada restaurante
     public static void inicializarMenu() {
         Map<String, Integer> fastFood = new HashMap<>();
         fastFood.put("hamburguesa", 12000);
@@ -28,7 +27,6 @@ public class Menu {
         restaurantes.put("Linea Veggie", lineaVeggie);
     }
 
-    // Método para obtener los restaurantes y sus comidas
     public static Map<String, Map<String, Integer>> getRestaurantes() {
         return restaurantes;
     }
