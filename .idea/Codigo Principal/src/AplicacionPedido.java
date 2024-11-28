@@ -33,17 +33,33 @@ public class AplicacionPedido {
             scanner.nextLine();
 
             if (opcion == 2) {
-                System.out.print("Ingrese su pedido (por ejemplo: 'Quiero pedir una hamburguesa'): ");
-                String textoDePedido = scanner.nextLine();
-                Pedido pedido = procesador.procesarPedido(textoDePedido);
+                boolean modificar = true;
 
-                if (pedido != null) {
-                    pedido.mostrarResumen();
-                    System.out.print("Seleccione una opción (1: Confirmar, 2: Modificar): ");
-                    int confirmacion = scanner.nextInt();
-                    pedido.procesarOpcion(confirmacion);
+                while (modificar) {
+                    System.out.print("Ingrese su pedido (por ejemplo: 'Quiero pedir una hamburguesa'): ");
+                    String textoDePedido = scanner.nextLine();
+                    Pedido pedido = procesador.procesarPedido(textoDePedido);
+
+                    if (pedido != null) {
+                        pedido.mostrarResumen();
+
+                        System.out.print("Seleccione una opción (1: Confirmar, 2: Modificar): ");
+                        int confirmacion = scanner.nextInt();
+                        scanner.nextLine();
+
+                        if (confirmacion == 1) {
+                            System.out.println("Pedido confirmado y enviado. ¡Gracias por su compra!");
+                            modificar = false;
+                            continuar = false;
+                        } else if (confirmacion == 2) {
+                            System.out.println("Modificando pedido... Ingrese nuevamente los detalles.");
+                        } else {
+                            System.out.println("Opción no válida. Intentando nuevamente.");
+                        }
+                    } else {
+                        System.out.println("No se reconoció el pedido. Por favor, intente nuevamente.");
+                    }
                 }
-                continuar = false;
             } else if (opcion != 1) {
                 System.out.println("Opción no válida. Volviendo al menú principal...");
             }
@@ -77,4 +93,3 @@ public class AplicacionPedido {
         }
     }
 }
-
