@@ -48,7 +48,7 @@ public class ProcesadorPedido {
 
     private String buscarDireccion(String texto) {
         String[] palabrasClave = {"para", "mi direccion es", "mi direccion", "hacia", "calle"};
-        String[] delimitadores = {",", " del restaurante", " en ", " quiero ", " para pedir "};
+        String[] delimitadores = {",", " del restaurante", " en ", " quiero ", " para pedir ", ".", " queria"};
 
         for (String palabraClave : palabrasClave) {
             if (texto.contains(palabraClave)) {

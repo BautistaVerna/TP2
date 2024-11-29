@@ -36,7 +36,7 @@ public class AplicacionPedido {
                 boolean modificar = true;
 
                 while (modificar) {
-                    System.out.print("Ingrese su pedido (por ejemplo: 'Quiero pedir una hamburguesa'): ");
+                    System.out.print("Ingrese su pedido, indicando restaurante, menu y direccion");
                     String textoDePedido = scanner.nextLine();
                     Pedido pedido = procesador.procesarPedido(textoDePedido);
 
