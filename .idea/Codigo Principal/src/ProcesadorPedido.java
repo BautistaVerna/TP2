@@ -1,13 +1,10 @@
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ProcesadorPedido {
     private final Map<String, Map<String, Integer>> restaurantes;
 
     public ProcesadorPedido() {
-        Menu.inicializarMenu();
-        this.restaurantes = Menu.getRestaurantes();
+        this.restaurantes = Menu.getInstance().getRestaurantes();
     }
 
     public Pedido procesarPedido(String texto) {
@@ -40,39 +37,18 @@ public class ProcesadorPedido {
 
         if (restauranteSeleccionado != null && comidaSeleccionada != null && direccion != null) {
             return new Pedido(restauranteSeleccionado, comidaSeleccionada, precioComida, direccion);
-        } else {
-            System.out.println("No se reconoció el restaurante, comida o dirección en el texto.");
-            return null;
         }
+        return null;
     }
 
     private String buscarDireccion(String texto) {
-        String[] palabrasClave = {"para", "mi direccion es", "mi direccion", "hacia", "calle"};
-        String[] delimitadores = {",", " del restaurante", " en ", " quiero ", " para pedir ", ".", " queria"};
-
-        for (String palabraClave : palabrasClave) {
-            if (texto.contains(palabraClave)) {
-                int inicioDireccion = texto.indexOf(palabraClave) + palabraClave.length();
-                String posibleDireccion = texto.substring(inicioDireccion).trim();
-
-                Pattern patronDireccion = Pattern.compile("^[^,]*(\\d{1,5})[^,]*");
-                Matcher matcher = patronDireccion.matcher(posibleDireccion);
-                if (matcher.find()) {
-                    String direccion = matcher.group().trim();
-
-                    for (String delimitador : delimitadores) {
-                        if (posibleDireccion.contains(delimitador)) {
-                            int finDireccion = posibleDireccion.indexOf(delimitador);
-                            direccion = posibleDireccion.substring(0, finDireccion).trim();
-                            break;
-                        }
-                    }
-
-                    return direccion;
-                }
+        String[] palabrasClave = {"para", "mi direccion es", "en", "hacia", "calle"};
+        for (String clave : palabrasClave) {
+            if (texto.contains(clave)) {
+                int inicio = texto.indexOf(clave) + clave.length();
+                return texto.substring(inicio).split(",|\\.|\\s+gracias")[0].trim();
             }
         }
-
         return null;
     }
 }

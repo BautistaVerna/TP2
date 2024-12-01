@@ -1,8 +1,8 @@
 public class Pedido {
-    private String restaurante;
-    private String comida;
-    private int precio;
-    private String direccion;
+    private final String restaurante;
+    private final String comida;
+    private final int precio;
+    private final String direccion;
 
     public Pedido(String restaurante, String comida, int precio, String direccion) {
         this.restaurante = restaurante;
@@ -17,8 +17,5 @@ public class Pedido {
         System.out.println("Comida: " + comida);
         System.out.println("Dirección: " + direccion);
         System.out.println("Precio: $" + precio);
-        System.out.println();
-        System.out.println("1 - Confirmar y enviar pedido");
-        System.out.println("2 - Modificar pedido");
     }
 }

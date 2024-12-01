@@ -36,7 +36,7 @@ public class AplicacionPedido {
                 boolean modificar = true;
 
                 while (modificar) {
-                    System.out.print("Ingrese su pedido, indicando restaurante, menu y direccion");
+                    System.out.print("Ingrese su pedido, indicando restaurante, menú y dirección: ");
                     String textoDePedido = scanner.nextLine();
                     Pedido pedido = procesador.procesarPedido(textoDePedido);
 
@@ -69,27 +69,7 @@ public class AplicacionPedido {
     }
 
     private static void mostrarMenu(String restaurante) {
-        switch (restaurante) {
-            case "Fast Food" -> {
-                System.out.println("Menú - Fast Food:");
-                System.out.println("- Hamburguesa $12,000");
-                System.out.println("- Papas fritas $4,500");
-                System.out.println("- Lomitos $13,000");
-                System.out.println("- Pancho $4,000");
-            }
-            case "Comida Italiana" -> {
-                System.out.println("Menú - Comida Italiana:");
-                System.out.println("- Fideos $10,000");
-                System.out.println("- Ravioles $11,500");
-                System.out.println("- Lasagna $15,000");
-                System.out.println("- Ñoquis $9,500");
-            }
-            case "Línea Veggie" -> {
-                System.out.println("Menú - Línea Veggie:");
-                System.out.println("- Mix de ensalada $8,500");
-                System.out.println("- Hamburguesa vegana $12,500");
-                System.out.println("- Wok de vegetales $9,500");
-            }
-        }
+        Menu menu = Menu.getInstance();
+        menu.mostrarMenu(restaurante);
     }
 }

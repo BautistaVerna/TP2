@@ -2,9 +2,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Menu {
-    private static final Map<String, Map<String, Integer>> restaurantes = new HashMap<>();
+    private static Menu instancia;
+    private final Map<String, Map<String, Integer>> restaurantes;
 
-    public static void inicializarMenu() {
+    private Menu() {
+        restaurantes = new HashMap<>();
+        inicializarMenu();
+    }
+
+    public static Menu getInstance() {
+        if (instancia == null) {
+            instancia = new Menu();
+        }
+        return instancia;
+    }
+
+    private void inicializarMenu() {
         Map<String, Integer> fastFood = new HashMap<>();
         fastFood.put("hamburguesa", 12000);
         fastFood.put("papas fritas", 4500);
@@ -24,10 +37,21 @@ public class Menu {
 
         restaurantes.put("Fast Food", fastFood);
         restaurantes.put("Comida Italiana", comidaItaliana);
-        restaurantes.put("Linea Veggie", lineaVeggie);
+        restaurantes.put("Línea Veggie", lineaVeggie);
     }
 
-    public static Map<String, Map<String, Integer>> getRestaurantes() {
+    public void mostrarMenu(String restaurante) {
+        if (restaurantes.containsKey(restaurante)) {
+            System.out.println("Menú - " + restaurante + ":");
+            restaurantes.get(restaurante).forEach((comida, precio) ->
+                    System.out.println("- " + comida + " $" + precio)
+            );
+        } else {
+            System.out.println("Restaurante no encontrado.");
+        }
+    }
+
+    public Map<String, Map<String, Integer>> getRestaurantes() {
         return restaurantes;
     }
 }
