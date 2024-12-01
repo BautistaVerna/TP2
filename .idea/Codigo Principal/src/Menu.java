@@ -5,6 +5,7 @@ public class Menu {
     private static Menu instancia;
     private final Map<String, Map<String, Integer>> restaurantes;
 
+    // Constructor privado para evitar instanciación externa
     private Menu() {
         restaurantes = new HashMap<>();
         inicializarMenu();
@@ -18,6 +19,7 @@ public class Menu {
     }
 
     private void inicializarMenu() {
+        // Inicialización de los menús para cada restaurante
         Map<String, Integer> fastFood = new HashMap<>();
         fastFood.put("hamburguesa", 12000);
         fastFood.put("papas fritas", 4500);
@@ -55,3 +57,4 @@ public class Menu {
         return restaurantes;
     }
 }
+
