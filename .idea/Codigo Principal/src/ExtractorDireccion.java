@@ -8,7 +8,6 @@ public class ExtractorDireccion {
                 int inicio = texto.indexOf(clave) + clave.length();
                 String subcadena = texto.substring(inicio).trim();
 
-                // Buscar el delimitador final más cercano
                 for (String delimitador : delimitadoresFinales) {
                     int fin = subcadena.indexOf(delimitador);
                     if (fin != -1) {
