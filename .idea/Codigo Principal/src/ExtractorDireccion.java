@@ -16,10 +16,9 @@ public class ExtractorDireccion {
                     }
                 }
 
-                // Si no encuentra delimitadores finales, devuelve toda la subcadena
                 return subcadena;
             }
         }
-        return null; // Si no encuentra palabras clave, retorna null
+        return null;
     }
 }
