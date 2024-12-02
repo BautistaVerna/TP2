@@ -9,7 +9,25 @@ public class ProcesadorPedido {
         this.extractorDireccion = new ExtractorDireccion();
     }
 
-    x
+    public Pedido procesarPedido(String texto) {
+        String restauranteSeleccionado = buscarRestaurante(texto);
+        String comidaSeleccionada = buscarComida(texto, restauranteSeleccionado);
+        String direccion = extractorDireccion.buscarDireccion(texto);
+
+        if (restauranteSeleccionado != null && comidaSeleccionada != null && direccion != null) {
+            int precioComida = restaurantes.get(restauranteSeleccionado).get(comidaSeleccionada);
+            return new Pedido(restauranteSeleccionado, comidaSeleccionada, precioComida, direccion);
+        }
+        return null;
+    }
+
+    private String buscarRestaurante(String texto) {
+        return restaurantes.keySet()
+                .stream()
+                .filter(restaurante -> texto.toLowerCase().contains(restaurante.toLowerCase()))
+                .findFirst()
+                .orElse(null);
+    }
 
     private String buscarComida(String texto, String restaurante) {
         if (restaurante == null) return null;
