@@ -1,23 +1,23 @@
-public class ExtractorDireccion {
-    public String buscarDireccion(String texto) {
-        // Buscar la palabra clave "Dirección:"
-        String palabraClave = "\"para\", \"mi direccion es\", \"en\", \"hacia\", \"calle\":";
-        if (texto.contains(palabraClave)) {
-            int inicio = texto.indexOf(palabraClave) + palabraClave.length();
-            String subTexto = texto.substring(inicio).trim();
+public String buscarDireccion(String texto) {
+    String[] palabrasClave = {"para", "mi direccion es", "en", "hacia", "calle"};
+    String[] delimitadoresFinales = {",", "\\.", "gracias", "quiero", "y", "me gustaria"};
 
-            // Dividir el subtexto en partes usando delimitadores comunes como , . ; \n \t y 'y'
-            String[] partes = subTexto.split("[,\\.\\s]+|gracias|;|\\n|\\t|y");
+    for (String clave : palabrasClave) {
+        if (texto.contains(clave)) {
+            int inicio = texto.indexOf(clave) + clave.length();
+            String subcadena = texto.substring(inicio).trim();
 
-            // Devolver la primera parte que no esté vacía
-            if (partes.length > 0) {
-                for (String parte : partes) {
-                    if (!parte.trim().isEmpty()) {
-                        return parte.trim();
-                    }
+            // Buscar el delimitador final más cercano
+            for (String delimitador : delimitadoresFinales) {
+                int fin = subcadena.indexOf(delimitador);
+                if (fin != -1) {
+                    return subcadena.substring(0, fin).trim();
                 }
             }
+
+            // Si no encuentra delimitadores finales, devuelve toda la subcadena
+            return subcadena;
         }
-        return "Dirección no encontrada"; // Mensaje si no se encuentra la dirección
     }
+    return null; // Si no encuentra palabras clave, retorna null
 }
