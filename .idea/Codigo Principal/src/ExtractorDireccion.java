@@ -1,12 +1,23 @@
 public class ExtractorDireccion {
     public String buscarDireccion(String texto) {
-        String[] palabrasClave = {"para", "mi direccion es", "en", "hacia", "calle"};
-        for (String clave : palabrasClave) {
-            if (texto.contains(clave)) {
-                int inicio = texto.indexOf(clave) + clave.length();
-                return texto.substring(inicio).split(",|\\.|\\s+gracias")[0].trim();
+        // Buscar la palabra clave "Dirección:"
+        String palabraClave = "\"para\", \"mi direccion es\", \"en\", \"hacia\", \"calle\":";
+        if (texto.contains(palabraClave)) {
+            int inicio = texto.indexOf(palabraClave) + palabraClave.length();
+            String subTexto = texto.substring(inicio).trim();
+
+            // Dividir el subtexto en partes usando delimitadores comunes como , . ; \n \t y 'y'
+            String[] partes = subTexto.split("[,\\.\\s]+|gracias|;|\\n|\\t|y");
+
+            // Devolver la primera parte que no esté vacía
+            if (partes.length > 0) {
+                for (String parte : partes) {
+                    if (!parte.trim().isEmpty()) {
+                        return parte.trim();
+                    }
+                }
             }
         }
-        return null;
+        return "Dirección no encontrada"; // Mensaje si no se encuentra la dirección
     }
 }
