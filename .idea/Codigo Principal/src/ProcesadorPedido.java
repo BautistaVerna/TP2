@@ -2,46 +2,40 @@ import java.util.Map;
 
 public class ProcesadorPedido {
     private final Map<String, Map<String, Integer>> restaurantes;
+    private final ExtractorDireccion extractorDireccion;
 
     public ProcesadorPedido() {
-        Menu.inicializarMenu();
-        this.restaurantes = Menu.getRestaurantes();
+        this.restaurantes = Menu.getInstance().getRestaurantes();
+        this.extractorDireccion = new ExtractorDireccion();
     }
 
-    // Procesa el texto y busca coincidencias para restaurante y comida de forma flexible
     public Pedido procesarPedido(String texto) {
-        String restauranteSeleccionado = null;
-        String comidaSeleccionada = null;
-        int precioComida = 0;
+        String restauranteSeleccionado = buscarRestaurante(texto);
+        String comidaSeleccionada = buscarComida(texto, restauranteSeleccionado);
+        String direccion = extractorDireccion.buscarDireccion(texto);
 
-        texto = texto.toLowerCase();
-
-        // Buscar coincidencia con el nombre de un restaurante en el texto
-        for (String restaurante : restaurantes.keySet()) {
-            if (texto.contains(restaurante.toLowerCase())) {
-                restauranteSeleccionado = restaurante;
-                break;
-            }
+        if (restauranteSeleccionado != null && comidaSeleccionada != null && direccion != null) {
+            int precioComida = restaurantes.get(restauranteSeleccionado).get(comidaSeleccionada);
+            return new Pedido(restauranteSeleccionado, comidaSeleccionada, precioComida, direccion);
         }
+        return null;
+    }
 
-        // Si se encuentra un restaurante, buscar una coincidencia de comida dentro de ese restaurante
-        if (restauranteSeleccionado != null) {
-            Map<String, Integer> comidas = restaurantes.get(restauranteSeleccionado);
-            for (Map.Entry<String, Integer> entrada : comidas.entrySet()) {
-                if (texto.contains(entrada.getKey().toLowerCase())) {
-                    comidaSeleccionada = entrada.getKey();
-                    precioComida = entrada.getValue();
-                    break;
-                }
-            }
-        }
+    private String buscarRestaurante(String texto) {
+        return restaurantes.keySet()
+                .stream()
+                .filter(restaurante -> texto.toLowerCase().contains(restaurante.toLowerCase()))
+                .findFirst()
+                .orElse(null);
+    }
 
-        // Verificar si se ha encontrado tanto restaurante como comida
-        if (restauranteSeleccionado != null && comidaSeleccionada != null) {
-            return new Pedido(restauranteSeleccionado, comidaSeleccionada, precioComida);
-        } else {
-            System.out.println("No se reconoció el restaurante o la comida en el texto.");
-            return null;
-        }
+    private String buscarComida(String texto, String restaurante) {
+        if (restaurante == null) return null;
+        return restaurantes.get(restaurante)
+                .keySet()
+                .stream()
+                .filter(comida -> texto.toLowerCase().contains(comida.toLowerCase()))
+                .findFirst()
+                .orElse(null);
     }
 }
